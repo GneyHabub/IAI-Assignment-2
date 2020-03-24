@@ -1,31 +1,30 @@
-import cv2
-import sys
+from PIL import Image, ImageDraw
+import numpy as np
 
-# Get user supplied values
-imagePath = 'img/input.jpeg'
-cascPath = "haarcascade_frontalface_default.xml"
+def estimateImgs(img1, img2):
+    orig_px = img1.load()
+    px = img2.load()
+    ranks = 0
+    for i in range(512):
+        for j in range (512):
+            if (abs(px[i, j][0] - orig_px[i, j][0]) < 10 and abs(px[i, j][1] - orig_px[i, j][1]) < 10 and abs(px[i, j][2] - orig_px[i, j][2]) < 10):
+                ranks += 1
+    return ranks
 
-# Create the haar cascade
-faceCascade = cv2.CascadeClassifier(cascPath)
+def produceChildren(parents):
+    pass
 
-# Read the image
-image = cv2.imread(imagePath)
-gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-# Detect faces in the image
-faces = faceCascade.detectMultiScale(
-    gray,
-    scaleFactor=1.1,
-    minNeighbors=5,
-    minSize=(30, 30),
-    flags = cv2.CASCADE_SCALE_IMAGE
-)
+orig = Image.open('img/input2.jpg')
+orig_px = orig.load()
+images = []
+ranks = []
+for k in range(120):
+    images.append(Image.fromarray((np.random.rand(512,512,3) * 255).astype('uint8')).convert('RGB'))
+    ranks.append(estimateImgs(orig, images[k]))
 
-print("Found {0} faces!".format(len(faces)))
-
-# Draw a rectangle around the faces
-for (x, y, w, h) in faces:
-    cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
-
-cv2.imshow("Faces found", image)
-cv2.waitKey(0)
+topParents = []
+for i in range(5):
+    top = ranks.index(max(ranks))
+    topParents.append(images[top])
+    ranks.pop(top)
