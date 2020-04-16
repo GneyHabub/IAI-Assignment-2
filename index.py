@@ -9,7 +9,7 @@ from colorthief import ColorThief as CT
 from time import time
 
 #config
-path = 'img/monaliza.jpg'
+path = 'img/input.jpg'
 populationSize = 35
 parentSize = 20
 childrenSize = 15
@@ -180,10 +180,10 @@ compColor = [255 - avgColor[0], 255- avgColor[1], 255- avgColor[2]]
 
 population = zeros((populationSize, 512, 512, 3), dtype = uint8) #initialize array with unsigned 8-bit integers
 for i in range(populationSize):
-    population[i] = zeros(shape=(512, 512, 3), dtype = uint8)
-    for j in range(512):
-        for k in range(512):
-            population[i][j, k] = avgColor
+    population[i] = array(Image.open('img/output.jpg'))#zeros(shape=(512, 512, 3), dtype = uint8)
+    # for j in range(512):
+    #     for k in range(512):
+    #         population[i][j, k] = avgColor
 for i in range(100000):
     # print(i)
     populationFitness = fitness(population, orig, populationSize)
