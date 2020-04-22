@@ -5,11 +5,12 @@ from numba import njit, prange
 from random import choice
 from sys import maxsize
 import math
+import os
 from colorthief import ColorThief as CT
 from time import time
 
 #config
-path = 'img/tomatosoup.jpg'
+path = 'img/girl.jpg'
 populationSize = 35
 parentSize = 20
 childrenSize = 15
@@ -107,10 +108,12 @@ compColor = [255 - avgColor[0], 255- avgColor[1], 255- avgColor[2]]
 
 population = zeros((populationSize, 512, 512, 3), dtype = uint8) #initialize array with unsigned 8-bit integers
 for i in range(populationSize):
-    population[i] = array(Image.open('img/output.jpg'))
-    # for j in range(512):
-    #     for k in range(512):
-    #         population[i][j, k] = avgColor
+    # population[i] = array(Image.open('img/output.jpg'))
+    for j in range(512):
+        for k in range(512):
+            population[i][j, k] = avgColor
+gifPath = '/Users/gneyhabub/Documents/GitHub/IAI-Assignment-2/img/gif/' + path[4:len(path) - 4]
+os.mkdir(gifPath)
 for i in range(100000):
     # print(i)
     populationFitness = fitness(population, orig, populationSize)
@@ -125,3 +128,6 @@ for i in range(100000):
     if i % 100 == 0:
         top = where(populationFitness == min(populationFitness))
         Image.fromarray(population[top][0]).save('//Users/gneyhabub/Documents/GitHub/IAI-Assignment-2/img/output.jpg', 'JPEG')
+    if i % 500 == 0:
+        top = where(populationFitness == min(populationFitness))
+        Image.fromarray(population[top][0]).save('/Users/gneyhabub/Documents/GitHub/IAI-Assignment-2/img/gif/'+ path[4:len(path) - 4] + '/output' + str(i) + '.jpg', 'JPEG')
