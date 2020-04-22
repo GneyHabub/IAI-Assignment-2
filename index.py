@@ -9,13 +9,13 @@ from colorthief import ColorThief as CT
 from time import time
 
 #config
-path = 'img/input2.jpg'
+path = 'img/tomatosoup.jpg'
 populationSize = 35
 parentSize = 20
 childrenSize = 15
 populationFitness = []
 color_thief = CT(path)
-palette = array(color_thief.get_palette(color_count=20))
+palette = array(color_thief.get_palette(color_count=40))
 
 # Evolutionary algorithm
 @njit(parallel=False)
@@ -107,10 +107,10 @@ compColor = [255 - avgColor[0], 255- avgColor[1], 255- avgColor[2]]
 
 population = zeros((populationSize, 512, 512, 3), dtype = uint8) #initialize array with unsigned 8-bit integers
 for i in range(populationSize):
-    # population[i] = zeros(shape=(512, 512, 3), dtype = uint8)
-    for j in range(512):
-        for k in range(512):
-            population[i][j, k] = avgColor
+    population[i] = array(Image.open('img/output.jpg'))
+    # for j in range(512):
+    #     for k in range(512):
+    #         population[i][j, k] = avgColor
 for i in range(100000):
     # print(i)
     populationFitness = fitness(population, orig, populationSize)
