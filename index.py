@@ -10,7 +10,7 @@ from colorthief import ColorThief as CT
 from time import time
 
 #config
-path = 'img/girl.jpg'
+path = 'img/Fighter.png'
 populationSize = 35
 parentSize = 20
 childrenSize = 15
@@ -111,7 +111,7 @@ for i in range(populationSize):
     # population[i] = array(Image.open('img/output.jpg'))
     for j in range(512):
         for k in range(512):
-            population[i][j, k] = avgColor
+            population[i][j, k] = compColor
 gifPath = '/Users/gneyhabub/Documents/GitHub/IAI-Assignment-2/img/gif/' + path[4:len(path) - 4]
 os.mkdir(gifPath)
 for i in range(100000):
